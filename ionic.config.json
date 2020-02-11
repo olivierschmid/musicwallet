@@ -1,0 +1,7 @@
+{
+  "name": "musicvalet",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

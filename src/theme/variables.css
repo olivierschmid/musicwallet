@@ -3,7 +3,7 @@ http://ionicframework.com/docs/theming/ */
 
 /** Ionic CSS Variables **/
 :root {
-  --ion-border-color: var(--ion-color-dark-shade);
+  --ion-border-color: var( --ion-color-step-100);
   --ion-background-color: var(--ion-color-dark);
   --ion-background-color-rgb: var(--ion-color-dark-rgb);
   --ion-text-color: var(--ion-color-light);

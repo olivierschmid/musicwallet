@@ -1,31 +1,32 @@
 import React, {useState} from 'react';
-import {Browser, Capacitor, Filesystem, FilesystemDirectory, GetUriResult, Plugins} from '@capacitor/core';
 import {
+    IonActionSheet,
     IonBackButton,
+    IonButton,
     IonButtons,
-    IonHeader,
-    IonPage,
-    IonToolbar,
-    IonTitle,
+    IonCol,
     IonContent,
-    IonFabButton,
-    IonIcon,
-    IonFabList,
     IonFab,
+    IonFabButton,
+    IonFabList,
+    IonGrid,
+    IonHeader,
+    IonIcon,
+    IonImg,
+    IonItem,
+    IonLabel,
     IonList,
     IonListHeader,
-    IonLabel,
-    IonItem,
-    IonGrid,
+    IonPage,
     IonRow,
-    IonCol,
-    IonImg, IonActionSheet, IonButton,
+    IonTextarea,
+    IonTitle,
+    IonToolbar,
 } from '@ionic/react';
-import {add, book, camera, document, mic, trash} from 'ionicons/icons';
-import {usePhotoGallery, Photo} from '../../hooks/usePhotoGallery';
+import {add, camera, document, mic, trash} from 'ionicons/icons';
+import {Photo, usePhotoGallery} from '../../hooks/usePhotoGallery';
 import {useAudio} from '../../hooks/useAudio';
 import {useBrowser} from '../../hooks/useBrowser';
-
 
 
 const SongDetail: React.FC = () => {
@@ -35,6 +36,14 @@ const SongDetail: React.FC = () => {
 
     const [photoToDelete, setPhotoToDelete] = useState<Photo>();
     const [recordAudio, setRecordAudio] = useState(false);
+    // const [segmentToShow, setSegmentToShow] = useState<any>();
+
+    let segmentToShow = 'nothing';
+
+    function setSegment(seg: any) {
+        console.log('*** function setSegment was called with: ' + seg);
+        segmentToShow = seg;
+    }
 
     return (
         <IonPage>
@@ -68,16 +77,17 @@ const SongDetail: React.FC = () => {
                     </IonFabList>
                 </IonFab>
 
-                <p>Details to song...{recordAudio}</p>
 
                 <IonList lines="none">
                     <IonListHeader>
-                        <IonLabel>Resources</IonLabel>
+                        <IonLabel>Details</IonLabel>
                     </IonListHeader>
                     <IonItem>
-                        <IonIcon slot="start" color="medium" icon={book}/>
-                        <IonLabel>Sheets</IonLabel>
+                        <IonTextarea placeholder="Enter more information here..."></IonTextarea>
                     </IonItem>
+                    <IonListHeader>
+                        <IonLabel>Sheets</IonLabel>
+                    </IonListHeader>
                 </IonList>
 
                 <IonGrid>
@@ -91,10 +101,16 @@ const SongDetail: React.FC = () => {
                     </IonRow>
                 </IonGrid>
 
-                <IonButton expand="full" color="medium"
-                           onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Open Browser
-                    1</IonButton>
-                <IonButton expand="full" color="medium" onClick={() => openBrowser2('')}>Open Recording</IonButton>
+                <IonList lines="none">
+                    <IonListHeader>
+                        <IonLabel>Audio</IonLabel>
+                    </IonListHeader>
+                        <IonButton expand="block" color="medium"
+                                   onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Open Browser 1</IonButton>
+                        <IonButton expand="block" color="medium" onClick={() => openBrowser2('')}>Open Recording</IonButton>
+                </IonList>
+
+
 
 
                 <IonActionSheet

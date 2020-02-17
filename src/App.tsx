@@ -6,7 +6,7 @@ import {calendar, musicalNotes, person} from 'ionicons/icons';
 import Songs from './pages/Songs';
 import Plan from './pages/Plan';
 import ProfilePage from './pages/Profile';
-import Details from './pages/Details';
+import Test from './pages/Test';
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
 /* Basic CSS for apps built with Ionic */
@@ -32,7 +32,7 @@ const App: React.FC = () => (
           <Route path="/songs" component={Songs} exact={true} />
           <Route path="/songs/songdetail" component={SongDetail} exact={true} />
           <Route path="/plan" component={Plan} exact={true} />
-          <Route path="/plan/details" component={Details} />
+          <Route path="/test" component={Test} />
           <Route path="/profile" component={ProfilePage} />
           <Route path="/" render={() => <Redirect to="/songs" />} exact={true} />
         </IonRouterOutlet>

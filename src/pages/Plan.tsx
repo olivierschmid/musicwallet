@@ -22,7 +22,7 @@ const Plan: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Plan</IonTitle>
+          <IonTitle size="large">Plan</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

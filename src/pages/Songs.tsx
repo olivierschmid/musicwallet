@@ -18,7 +18,7 @@ const Songs: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Songs</IonTitle>
+                    <IonTitle size="large">Songs</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>

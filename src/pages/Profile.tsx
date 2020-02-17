@@ -24,7 +24,7 @@ const ProfilePage: React.FC = () => {
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Profile</IonTitle>
+                    <IonTitle size="large">Profile</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>

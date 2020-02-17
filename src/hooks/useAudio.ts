@@ -9,7 +9,7 @@ const {VoiceRecorder} = Plugins;
 
 
 export function useAudio() {
-    const {readFile, writeFile, deleteFile} = useFilesystem();
+    const {readFile, writeFile} = useFilesystem();
 
     const canDeviceVoiceRecord = async () => {
         VoiceRecorder.canDeviceVoiceRecord().then((result: GenericResponse) => console.log(result.value))

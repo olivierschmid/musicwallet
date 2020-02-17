@@ -23,28 +23,27 @@ import {
     IonTitle,
     IonToolbar,
 } from '@ionic/react';
-import {add, camera, document, mic, trash} from 'ionicons/icons';
+import {add, camera, document, mic, stopCircleOutline, trash} from 'ionicons/icons';
 import {Photo, usePhotoGallery} from '../../hooks/usePhotoGallery';
 import {useAudio} from '../../hooks/useAudio';
 import {useBrowser} from '../../hooks/useBrowser';
+import {Song, useSongStorage} from '../../hooks/useSong';
+import {RouteComponentProps} from 'react-router';
 
+interface UserDetailPageProps extends RouteComponentProps<{
+    id: string;
+}> {}
 
-const SongDetail: React.FC = () => {
+const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
     const {photos, takePhoto, deletePhoto} = usePhotoGallery();
-    const {startRecordAudio, stopRecordAudio, loadAudio} = useAudio();
+    const {startRecordAudio, stopRecordAudio} = useAudio();
     const {openBrowser, openBrowser2} = useBrowser();
+    const {songs, deleteSong} = useSongStorage();
 
     const [photoToDelete, setPhotoToDelete] = useState<Photo>();
     const [recordAudio, setRecordAudio] = useState(false);
-    // const [segmentToShow, setSegmentToShow] = useState<any>();
-
-    let segmentToShow = 'nothing';
-
-    function setSegment(seg: any) {
-        console.log('*** function setSegment was called with: ' + seg);
-        segmentToShow = seg;
-    }
-
+    const currentSong: Song = songs.filter(p => p.songId === match.params.id)[0];
+console.log('*** currrent song: ' +JSON.stringify(currentSong));
     return (
         <IonPage>
             <IonHeader>
@@ -90,7 +89,7 @@ const SongDetail: React.FC = () => {
                     </IonListHeader>
                 </IonList>
 
-                <IonGrid>
+                <IonGrid class="ion-padding">
                     <IonRow>
                         {photos.map((photo, index) => (
                             <IonCol size="6" key={index}>
@@ -105,13 +104,21 @@ const SongDetail: React.FC = () => {
                     <IonListHeader>
                         <IonLabel>Audio</IonLabel>
                     </IonListHeader>
-                        <IonButton expand="block" color="medium"
-                                   onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Open Browser 1</IonButton>
-                        <IonButton expand="block" color="medium" onClick={() => openBrowser2('')}>Open Recording</IonButton>
+                    <IonButton expand="block" color="medium"
+                               onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Open Browser
+                        1</IonButton>
+                    <IonButton expand="block" color="medium" onClick={() => openBrowser2('')}>Open Recording</IonButton>
                 </IonList>
 
+                <br></br>
+                <IonButton expand="block" color="danger" onClick={() => {
+                    deleteSong(match.params.id)
+                }}>Delete
+                </IonButton>
 
-
+                <div>
+                    Song ID: {match.params.id}
+                </div>
 
                 <IonActionSheet
                     isOpen={!!photoToDelete}
@@ -141,7 +148,7 @@ const SongDetail: React.FC = () => {
                     buttons={[{
                         text: 'Stop recording',
                         role: 'destructive',
-                        icon: trash,
+                        icon: stopCircleOutline,
                         handler: () => {
                             if (recordAudio) {
                                 stopRecordAudio();
@@ -155,4 +162,5 @@ const SongDetail: React.FC = () => {
         </IonPage>
     );
 };
+
 export default SongDetail;

@@ -1,7 +1,10 @@
 import {
     IonAvatar,
     IonContent,
+    IonFab,
+    IonFabButton,
     IonHeader,
+    IonIcon,
     IonItem,
     IonLabel,
     IonList,
@@ -12,8 +15,12 @@ import {
 } from '@ionic/react';
 import React from 'react';
 import './Songs.css';
+import {add} from 'ionicons/icons';
+import {useSongStorage} from '../hooks/useSong';
 
 const Songs: React.FC = () => {
+    const {songs, addSong} = useSongStorage();
+console.log(songs);
     return (
         <IonPage>
             <IonHeader>
@@ -24,34 +31,24 @@ const Songs: React.FC = () => {
             <IonContent>
                 <IonSearchbar showCancelButton="focus"></IonSearchbar>
 
+
+                <IonFab vertical="top" horizontal="end" slot="fixed">
+                    <IonFabButton color="light" onClick={() => addSong({songId: '1',title: 'new song', description: 'this is a new song'})}>
+                        <IonIcon icon={add}></IonIcon>
+                    </IonFabButton>
+                </IonFab>
+
                 <IonList>
-                    <IonItem routerLink="/songs/songdetail">
-                        <IonAvatar slot="start">
-                            <img src="/assets/music_emoticon1.jpg" alt=""/>
-                        </IonAvatar>
-                        <IonLabel>
-                            <h2>Song 1</h2>
-                            <p>This is my first song</p>
-                        </IonLabel>
-                    </IonItem>
-                    <IonItem routerLink="/songs/songdetail">
-                        <IonAvatar slot="start">
-                            <img src="/assets/music_emoticon2.png" alt=""/>
-                        </IonAvatar>
-                        <IonLabel>
-                            <h2>Song 2</h2>
-                            <p>This is my second song</p>
-                        </IonLabel>
-                    </IonItem>
-                    <IonItem routerLink="/songs/songdetail">
-                        <IonAvatar slot="start">
-                            <img src="/assets/music_emoticon2.png" alt=""/>
-                        </IonAvatar>
-                        <IonLabel>
-                            <h2>Song 3</h2>
-                            <p>This is my second song</p>
-                        </IonLabel>
-                    </IonItem>
+                    {songs.map((song, idx) =>
+                        <IonItem key={idx} routerLink={"/songs/songdetail/"+song.songId}>
+                            <IonAvatar slot="start">
+                                <img src="/assets/music_emoticon2.png" alt=""/>
+                            </IonAvatar>
+                            <IonLabel>
+                                <h2>{song.title}</h2>
+                                <p>{song.description}</p>
+                            </IonLabel>
+                    </IonItem>)}
                 </IonList>
 
             </IonContent>

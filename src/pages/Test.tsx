@@ -14,8 +14,6 @@ import {
 const Test: React.FC = () => {
 
     const [show, setShow] = useState<boolean>(false);
-    const [segment, setSegment] = useState<string>('nothing');
-
     return (
         <IonPage>
             <IonHeader>

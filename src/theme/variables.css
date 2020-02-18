@@ -9,7 +9,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-text-color: var(--ion-color-light);
   --ion-text-color-rgb: var(--ion-color-light-rgb); */
 
-  --ion-color-step-50: #232323;
+ /* --ion-color-step-50: #232323;
   --ion-color-step-100: #2e2e2e;
   --ion-color-step-150: #3a3a3a;
   --ion-color-step-200: #454545;
@@ -27,7 +27,7 @@ http://ionicframework.com/docs/theming/ */
   --ion-color-step-800: #d1d1d1;
   --ion-color-step-850: #dcdcdc;
   --ion-color-step-900: #e8e8e8;
-  --ion-color-step-950: #f3f3f3;
+  --ion-color-step-950: #f3f3f3; */
 
   /** primary **/
   --ion-color-primary: #3880ff;

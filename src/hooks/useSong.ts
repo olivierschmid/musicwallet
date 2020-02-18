@@ -36,7 +36,6 @@ export function useSongStorage() {
     const updateSong = async (songToEdit: Song) => {
         console.log('*** useSong: update song with: ', songToEdit);
 
-
         const songList = songs.map((item: any, j) => {
             if (j === songToEdit) {
                 return item + 1;
@@ -46,11 +45,7 @@ export function useSongStorage() {
         });
         set(SONG_STORAGE, JSON.stringify(songList));
         setSongs(songList);
-
-
-        // deleteSong(songToEdit.songId);
-        // addSong(songToEdit);
-    }
+    };
 
     return {
         songs,

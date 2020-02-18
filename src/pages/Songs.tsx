@@ -8,7 +8,7 @@ import {
     IonItem,
     IonLabel,
     IonList,
-    IonPage,
+    IonPage, IonRefresher, IonRefresherContent,
     IonSearchbar,
     IonTitle,
     IonToolbar
@@ -20,6 +20,15 @@ import {useSongStorage} from '../hooks/useSong';
 
 const Songs: React.FC = () => {
     const {songs, addSong} = useSongStorage();
+
+    function doRefresh(event: CustomEvent) {
+        console.log('Begin async operation');
+        setTimeout(() => {
+            console.log('Async operation has ended');
+            event.detail.complete();
+        }, 1000);
+    }
+
     return (
         <IonPage>
             <IonHeader>
@@ -28,8 +37,11 @@ const Songs: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-                <IonSearchbar showCancelButton="focus"></IonSearchbar>
+                <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+                    <IonRefresherContent></IonRefresherContent>
+                </IonRefresher>
 
+                <IonSearchbar showCancelButton="focus"></IonSearchbar>
 
                 <IonFab vertical="top" horizontal="end" slot="fixed">
                     <IonFabButton color="light" onClick={() => addSong({songId: '1',title: 'new song', description: 'this is a new song'})}>

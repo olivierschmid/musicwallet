@@ -1,12 +1,9 @@
 import {useEffect, useState} from "react";
-import {useFilesystem} from '@ionic/react-hooks/filesystem';
 import {useStorage} from '@ionic/react-hooks/storage';
 
 const SONG_STORAGE = "songs";
 
 export function useSongStorage() {
-    const {readFile} = useFilesystem();
-    // const {getPhoto} = useCamera();
     const [songs, setSongs] = useState<Song[]>([]);
     const {get, set} = useStorage();
 
@@ -18,19 +15,7 @@ export function useSongStorage() {
             setSongs(songs);
         };
         loadSavedSongs();
-    }, [get, set]);
-
- /*   const saveSong = async (editedSong: Song) => {
-        const newSongs = [editedSong, ...songs];
-        setSongs(newSongs);
-        set(SONG_STORAGE, JSON.stringify(newSongs.map(p => {
-            // Don't save the base64 representation of the photo data,
-            // since it's already saved on the Filesystem
-            //const photoCopy = {...p};
-            //delete photoCopy.base64;
-            //return photoCopy;
-        })));
-    }; */
+    }, [get]);
 
     const addSong = async (newSong: Song) => {
         newSong.songId = new Date().getTime().toString();
@@ -39,7 +24,7 @@ export function useSongStorage() {
         set(SONG_STORAGE, JSON.stringify(newSongs));
     };
 
-    const deleteSong = async (songId: string) => {
+    const deleteSong = async (songId: string | undefined) => {
         // Remove this photo from the Photos reference data array
         const newSongs = songs.filter(p => p.songId !== songId);
 
@@ -48,10 +33,29 @@ export function useSongStorage() {
         setSongs(newSongs);
     };
 
+    const updateSong = async (songToEdit: Song) => {
+        console.log('*** useSong: update song with: ', songToEdit);
+
+
+        const songList = songs.map((item: any, j) => {
+            if (j === songToEdit) {
+                return item + 1;
+            } else {
+                return item;
+            }
+        });
+        set(SONG_STORAGE, JSON.stringify(songList));
+        setSongs(songList);
+
+
+        // deleteSong(songToEdit.songId);
+        // addSong(songToEdit);
+    }
+
     return {
         songs,
         deleteSong,
-        addSong
+        addSong, updateSong
     };
 }
 

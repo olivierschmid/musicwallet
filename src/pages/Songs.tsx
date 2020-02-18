@@ -20,7 +20,6 @@ import {useSongStorage} from '../hooks/useSong';
 
 const Songs: React.FC = () => {
     const {songs, addSong} = useSongStorage();
-console.log(songs);
     return (
         <IonPage>
             <IonHeader>

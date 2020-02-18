@@ -90,17 +90,17 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
 
                     <IonCardContent>
                         <IonItem>
-                            <IonLabel position="floating">Title:</IonLabel>
+                            <IonLabel color="primary" position="floating">Title:</IonLabel>
                             <IonInput clearInput value={currentSong.title} onIonChange={(e) => currentSong.title = (e.target as HTMLInputElement).value}></IonInput>
                         </IonItem>
                         <IonItem>
-                            <IonLabel position="floating">Description:</IonLabel>
+                            <IonLabel color="primary" position="floating">Description:</IonLabel>
                             <IonInput clearInput value={currentSong.description} onIonChange={(e) => currentSong.description = (e.target as HTMLInputElement).value}></IonInput>
                         </IonItem>
 
 
-                        <IonGrid class="--ion-grid-padding">
-                            <IonRow class="ion-align-items-center">
+                        <IonGrid class="ion-grid-padding ion-padding-top">
+                            <IonRow class="ion-align-items-center ion-padding-start">
                                 <IonCol size="3" >
                                     <p><IonIcon icon={caretUp}/></p>
                                 </IonCol>

@@ -45,11 +45,16 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
 
     const [photoToDelete, setPhotoToDelete] = useState<Photo>();
     const [recordAudio, setRecordAudio] = useState(false);
+    const [tempo, setTempo] = useState(120);
 
     let currentSong: Song = {};
 
     if (songs.filter(p => p.songId === match.params.id)[0] !== undefined) {
         currentSong = songs.filter(p => p.songId === match.params.id)[0];
+    }
+
+    function changeTempo(tempoDelta: number) {
+        setTempo(tempo+tempoDelta);
     }
 
     return (
@@ -102,14 +107,14 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                         <IonGrid class="ion-grid-padding ion-padding-top">
                             <IonRow class="ion-align-items-center ion-padding-start">
                                 <IonCol size="3" >
-                                    <p><IonIcon icon={caretUp}/></p>
+                                    <IonIcon size="large" icon={caretUp} onClick={() => {changeTempo(1)}}/>
                                 </IonCol>
                                 <IonCol size="6" class="ion-align-items-center ion-text-center">
-                                    <h1>120</h1>
+                                    <h1>{tempo}</h1>
                                     <p>tap tempo</p>
                                 </IonCol>
                                 <IonCol size="3">
-                                    <p><IonIcon icon={caretDown}/></p>
+                                    <IonIcon size="large" icon={caretDown} onClick={() => {changeTempo(-1)}}/>
                                 </IonCol>
                             </IonRow>
                         </IonGrid>

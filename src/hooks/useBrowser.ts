@@ -1,6 +1,8 @@
-import {Browser, Filesystem, FilesystemDirectory, GetUriResult} from '@capacitor/core';
+import {Browser, FilesystemDirectory} from '@capacitor/core';
+import {useFilesystem} from '@ionic/react-hooks/filesystem';
 
 export function useBrowser() {
+    const {getUri, readFile} = useFilesystem();
 
     const openBrowser = async (urlToOpen: string) => {
         console.log('*** will open browser with url: ' + urlToOpen);
@@ -12,21 +14,37 @@ export function useBrowser() {
     const openBrowser2 = async (urlToOpen: string) => {
         console.log('*** useBrowser: will convert url...');
 
-        Filesystem.getUri({
-            directory: FilesystemDirectory.Data,
-            path: 'audio1.wav'
-        }).then((getUriResult: GetUriResult) => {
-            console.log('*** useBrowser: getUriResult: ',JSON.stringify(getUriResult));
+        await getUri({
+            path: urlToOpen,
+            directory: FilesystemDirectory.Documents,
+        }).then((res) => {
+            console.log('*** useBrowser: getUri '+res.uri);
 
-            const path = getUriResult.uri;
-            // Browser.open(path, 'application/audio')
-            console.log('*** useBrowser: will open file: ' + path);
-            Browser.open({url: path})
-        }).then((error) => {
-            console.log(error);
+            openBrowser(res.uri).then((res) => {
+                console.log('*** useBrowser: openBrowser '+res);
+            }).catch((error) => {
+                console.log('*** useBrowser: Error opening browser ', error);
+            }).catch((error) => {
+                console.log('*** useBrowser: error converting URL');
+            });
         });
     }
 
-    return {openBrowser, openBrowser2}
+    const getEncodedUri = async (urlToEncode: string) => {
+        console.log('*** useBrowser: getUri with url ',urlToEncode);
+
+        await getUri({
+            path: urlToEncode,
+            directory: FilesystemDirectory.Documents,
+        }).then((res) => {
+            console.log('*** useBrowser: encoded uri  '+res.uri);
+
+            return res.uri;
+        }).catch((error) => {
+            console.log('*** useBrowser Error encoding url ', error);
+        });
+    }
+
+    return {openBrowser, openBrowser2, getEncodedUri}
 }
 

@@ -151,14 +151,9 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                         <IonButton expand="block" color="primary"
                                    onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Open Browser
                             1</IonButton>
-                        <IonButton expand="block" color="primary" onClick={() => openBrowser2('')}>Open Recording</IonButton>
+                        <IonButton expand="block" color="primary" onClick={() => openBrowser2('audio1.wav')}>Open Recording</IonButton>
                     </IonCardContent>
                 </IonCard>
-
-                <audio controls>
-                    <source src="file:///var/mobile/Containers/Data/Application/FB8DF5EF-D877-45E6-96DC-665619DA7568/Documents/audio1.wav" type="audio/wav">
-                    </source>
-                    </audio>
 
                 <IonButton expand="block" color="primary" onClick={() => {
                     updateSong(currentSong)

@@ -16,12 +16,12 @@ import {
     IonGrid,
     IonHeader,
     IonIcon,
-    IonImg, IonInput,
+    IonImg,
+    IonInput,
     IonItem,
     IonLabel,
     IonPage,
     IonRow,
-    IonTextarea,
     IonTitle,
     IonToolbar,
 } from '@ionic/react';
@@ -31,6 +31,7 @@ import {useAudio} from '../../hooks/useAudio';
 import {useBrowser} from '../../hooks/useBrowser';
 import {Song, useSongStorage} from '../../hooks/useSong';
 import {RouteComponentProps} from 'react-router';
+import './SongDetail.css';
 
 interface UserDetailPageProps extends RouteComponentProps<{
     id: string;
@@ -88,25 +89,25 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     </IonFabList>
                 </IonFab>
 
-                <IonCard>
+                <IonCard class="ion-card-green">
                     <IonCardHeader>
-                        <IonCardSubtitle>Song details</IonCardSubtitle>
+                        <IonCardSubtitle class="ion-card-subtitle-white">Song details</IonCardSubtitle>
                     </IonCardHeader>
 
                     <IonCardContent>
-                        <IonItem>
-                            <IonLabel color="primary" position="floating">Title:</IonLabel>
+                        <IonItem class="ion-item-green">
+                            <IonLabel position="floating">Title:</IonLabel>
                             <IonInput clearInput value={currentSong.title} onIonChange={(e) => currentSong.title = (e.target as HTMLInputElement).value}></IonInput>
                         </IonItem>
-                        <IonItem>
-                            <IonLabel color="primary" position="floating">Description:</IonLabel>
+                        <IonItem class="ion-item-green">
+                            <IonLabel position="floating">Description:</IonLabel>
                             <IonInput clearInput value={currentSong.description} onIonChange={(e) => currentSong.description = (e.target as HTMLInputElement).value}></IonInput>
                         </IonItem>
 
 
                         <IonGrid class="ion-grid-padding ion-padding-top">
                             <IonRow class="ion-align-items-center ion-padding-start">
-                                <IonCol size="3" >
+                                <IonCol size="3">
                                     <IonIcon size="large" icon={caretUp} onClick={() => {changeTempo(1)}}/>
                                 </IonCol>
                                 <IonCol size="6" class="ion-align-items-center ion-text-center">
@@ -119,12 +120,11 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                             </IonRow>
                         </IonGrid>
                     </IonCardContent>
-
                 </IonCard>
 
-                <IonCard>
+                <IonCard class="ion-card-orange">
                     <IonCardHeader>
-                        <IonCardSubtitle>note sheets</IonCardSubtitle>
+                        <IonCardSubtitle class="ion-card-subtitle-white">note sheets</IonCardSubtitle>
                     </IonCardHeader>
 
                     <IonCardContent>
@@ -142,19 +142,23 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                 </IonCard>
 
 
-                <IonCard>
+                <IonCard class="ion-card-blue">
                     <IonCardHeader>
-                        <IonCardSubtitle>audio recordings</IonCardSubtitle>
+                        <IonCardSubtitle class="ion-card-subtitle-white">audio recordings</IonCardSubtitle>
                     </IonCardHeader>
 
                     <IonCardContent>
-                        <IonButton expand="block" color="medium"
+                        <IonButton expand="block" color="primary"
                                    onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Open Browser
                             1</IonButton>
-                        <IonButton expand="block" color="medium" onClick={() => openBrowser2('')}>Open Recording</IonButton>
+                        <IonButton expand="block" color="primary" onClick={() => openBrowser2('')}>Open Recording</IonButton>
                     </IonCardContent>
                 </IonCard>
 
+                <audio controls>
+                    <source src="file:///var/mobile/Containers/Data/Application/FB8DF5EF-D877-45E6-96DC-665619DA7568/Documents/audio1.wav" type="audio/wav">
+                    </source>
+                    </audio>
 
                 <IonButton expand="block" color="primary" onClick={() => {
                     updateSong(currentSong)

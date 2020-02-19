@@ -1,5 +1,5 @@
 .ion-card-black {
-    border: 1px solid var(--ion-color-step-150);
+    border: 1px solid #3a3a3a;
 }
 
 .ion-card-orange {
@@ -16,8 +16,8 @@
 
 .ion-item-green{
     --background: #51a57a;
-    --color: var(--ion-color-step-850);
-    --border-color: var(--ion-color-step-850);
+    --color: #dcdcdc;
+    --border-color: #dcdcdc;
 
 }
 
@@ -26,10 +26,10 @@
 }
 
 h1{
-    color: var(--ion-color-step-850);
+    color: #dcdcdc;
 }
 p{
-    color: var(--ion-color-step-850);
+    color: #dcdcdc;
 }
 
 

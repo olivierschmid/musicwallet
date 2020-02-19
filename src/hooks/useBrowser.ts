@@ -1,8 +1,10 @@
 import {Browser, FilesystemDirectory} from '@capacitor/core';
 import {useFilesystem} from '@ionic/react-hooks/filesystem';
+import {useAudio} from './useAudio';
 
 export function useBrowser() {
     const {getUri, readFile} = useFilesystem();
+    const {playbackAudio} = useAudio();
 
     const openBrowser = async (urlToOpen: string) => {
         console.log('*** will open browser with url: ' + urlToOpen);
@@ -20,13 +22,15 @@ export function useBrowser() {
         }).then((res) => {
             console.log('*** useBrowser: getUri '+res.uri);
 
-            openBrowser(res.uri).then((res) => {
+            playbackAudio(res.uri);
+
+            /*openBrowser(res.uri).then((res) => {
                 console.log('*** useBrowser: openBrowser '+res);
             }).catch((error) => {
                 console.log('*** useBrowser: Error opening browser ', error);
             }).catch((error) => {
                 console.log('*** useBrowser: error converting URL');
-            });
+            }); */
         });
     }
 

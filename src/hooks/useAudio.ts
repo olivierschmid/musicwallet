@@ -58,6 +58,19 @@ export function useAudio() {
         return file.data;
     };
 
+
+    const playbackAudioLocal = async (url: string) => {
+        console.log('*** useAudio: playbackAudioLocal with url ', url);
+        const audio = await readFile({
+            path: url,
+            directory: FilesystemDirectory.Data,
+        });
+        console.log('*** useAudio: playbackAudioLocal with data ',audio.data);
+        const audioRef = new Audio(`data:audio/aac;base64,${audio.data}`)
+        audioRef.oncanplaythrough = () => audioRef.play()
+        audioRef.load()
+    };
+
     const playbackAudio = async (url: string) => {
         console.log('*** useAudio: playbackAudio with url ', url);
 
@@ -86,7 +99,7 @@ export function useAudio() {
         })
     };
     return {
-        canDeviceVoiceRecord, startRecordAudio, stopRecordAudio, loadAudio, playbackAudio
+        canDeviceVoiceRecord, startRecordAudio, stopRecordAudio, loadAudio, playbackAudio, playbackAudioLocal
     }
 };
 

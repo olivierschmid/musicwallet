@@ -2,12 +2,16 @@
     border: 1px solid #3a3a3a;
 }
 
-.ion-card-orange {
+.ion-card-red {
     --background: #df4c39;
 }
 
 .ion-card-blue {
     background: #4a78d2;
+}
+
+.ion-card-yellow {
+    background: #dda745;
 }
 
 .ion-card-green {
@@ -18,7 +22,18 @@
     --background: #51a57a;
     --color: #dcdcdc;
     --border-color: #dcdcdc;
+}
 
+.ion-item-yellow{
+    --background: #dda745;
+    --color: #dcdcdc;
+    --border-color: #dcdcdc;
+}
+
+.ion-item-blue{
+    --background: #4a78d2;
+    --color: #dcdcdc;
+    --border-color: #dcdcdc;
 }
 
 .ion-card-subtitle-white{

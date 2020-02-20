@@ -19,7 +19,7 @@ import {
     IonImg,
     IonInput,
     IonItem,
-    IonLabel,
+    IonLabel, IonList,
     IonPage, IonPopover,
     IonRow,
     IonTitle,
@@ -42,7 +42,7 @@ let TimerMixin = require('react-timer-mixin');
 
 const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
     const {photos, takePhoto, deletePhoto} = usePhotoGallery();
-    const {startRecordAudio, stopRecordAudio, playbackAudio} = useAudio();
+    const {startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal} = useAudio();
     const {openBrowser, openBrowserInternal} = useBrowser();
     const {songs, deleteSong, updateSong} = useSongStorage();
 
@@ -150,7 +150,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                 </IonCard>
 
                 {/* -- Note sheets -- */}
-                <IonCard class="ion-card-orange">
+                <IonCard class="ion-card-red">
                     <IonCardHeader>
                         <IonCardSubtitle class="ion-card-subtitle-white">note sheets</IonCardSubtitle>
                     </IonCardHeader>
@@ -171,19 +171,43 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                 </IonCard>
 
                 {/* -- Audio Recordings -- */}
-                <IonCard class="ion-card-blue">
+                <IonCard class="ion-card-yellow">
                     <IonCardHeader>
                         <IonCardSubtitle class="ion-card-subtitle-white">audio recordings</IonCardSubtitle>
                     </IonCardHeader>
 
                     <IonCardContent>
-                        <IonButton expand="block" color="primary"
-                                   onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Browser
-                        </IonButton>
-                        <IonButton expand="block" color="primary" onClick={() => playbackAudio('audio1.wav')}>Playlist</IonButton>
+                        <IonList>
+                            <IonItem class="ion-item-yellow" onClick={() => playbackAudioLocal('audio1.wav')}>
+                                Recording 1
+                            </IonItem>
+                            <IonItem class="ion-item-yellow" onClick={() => playbackAudioLocal('audio1.wav')}>
+                                Recording 2
+                            </IonItem>
+                        </IonList>
+                        <IonButton expand="block" color="medium" onClick={() => playbackAudio('')}>Playlist</IonButton>
                     </IonCardContent>
                 </IonCard>
 
+                {/* -- Files / Browser -- */}
+                <IonCard class="ion-card-blue">
+                    <IonCardHeader>
+                        <IonCardSubtitle class="ion-card-subtitle-white">links</IonCardSubtitle>
+                    </IonCardHeader>
+
+                    <IonCardContent>
+                        <IonList>
+                            <IonItem class="ion-item-blue" onClick={() => openBrowser('https://www.songfacts.com/lyrics/the-beatles/yesterday')}>
+                                Lyrics
+                            </IonItem>
+                            <IonItem class="ion-item-blue" onClick={() => openBrowser('https://www.songfacts.com/lyrics/the-beatles/yesterday')}>
+                                Additional Infos
+                            </IonItem>
+                        </IonList>
+                    </IonCardContent>
+                </IonCard>
+
+                {/* -- Update and Delete Buttons -- */}
                 <IonButton expand="block" color="primary" onClick={() => {
                     updateSong(currentSong)
                 }}>Update

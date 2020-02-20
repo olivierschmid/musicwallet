@@ -37,7 +37,6 @@ export function useAudio() {
     };
 
     const saveAudio = async (audio: any, fileName: string) => {
-        // const base64Data = await base64FromPath(photo.webPath!);
         await writeFile({
             path: fileName,
             data: audio,
@@ -48,14 +47,6 @@ export function useAudio() {
         }).catch((error) => {
             console.log(error);
         });
-    };
-
-    const loadAudio = async () => {
-        const file = await readFile({
-            path: 'audio1.wav',
-            directory: FilesystemDirectory.Data
-        });
-        return file.data;
     };
 
 
@@ -81,9 +72,6 @@ export function useAudio() {
         console.log('*** useAudio: encoded url is ', encodedUrl.uri);
 
         AudioPlugin.playList([
-                //{
-                //    src: encodedUrl.uri
-                //},
                 {
                     src: 'https://file-examples.com/wp-content/uploads/2017/11/file_example_WAV_1MG.wav'
                 },
@@ -99,7 +87,7 @@ export function useAudio() {
         })
     };
     return {
-        canDeviceVoiceRecord, startRecordAudio, stopRecordAudio, loadAudio, playbackAudio, playbackAudioLocal
+        canDeviceVoiceRecord, startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal
     }
 };
 

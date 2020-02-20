@@ -40,7 +40,7 @@ interface UserDetailPageProps extends RouteComponentProps<{
 
 const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
     const {photos, takePhoto, deletePhoto} = usePhotoGallery();
-    const {startRecordAudio, stopRecordAudio} = useAudio();
+    const {startRecordAudio, stopRecordAudio, playbackAudio} = useAudio();
     const {openBrowser, openBrowser2} = useBrowser();
     const {songs, deleteSong, updateSong} = useSongStorage();
 
@@ -149,9 +149,9 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
 
                     <IonCardContent>
                         <IonButton expand="block" color="primary"
-                                   onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Open Browser
-                            1</IonButton>
-                        <IonButton expand="block" color="primary" onClick={() => openBrowser2('audio1.wav')}>Open Recording</IonButton>
+                                   onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Browser
+                        </IonButton>
+                        <IonButton expand="block" color="primary" onClick={() => playbackAudio('')}>Playlist</IonButton>
                     </IonCardContent>
                 </IonCard>
 

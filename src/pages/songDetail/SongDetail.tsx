@@ -20,7 +20,7 @@ import {
     IonInput,
     IonItem,
     IonLabel,
-    IonPage,
+    IonPage, IonPopover,
     IonRow,
     IonTitle,
     IonToolbar,
@@ -37,6 +37,7 @@ interface UserDetailPageProps extends RouteComponentProps<{
     id: string;
 }> {
 }
+let TimerMixin = require('react-timer-mixin');
 
 const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
     const {photos, takePhoto, deletePhoto} = usePhotoGallery();
@@ -46,6 +47,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
 
     const [photoToDelete, setPhotoToDelete] = useState<Photo>();
     const [recordAudio, setRecordAudio] = useState(false);
+    const [recordAudioTime, setRecordAudioTime] = useState<number>(0);
     const [tempo, setTempo] = useState(120);
 
     let currentSong: Song = {};
@@ -55,7 +57,34 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
     }
 
     function changeTempo(tempoDelta: number) {
-        setTempo(tempo+tempoDelta);
+        setTempo(tempo + tempoDelta);
+    }
+
+    function incrementTimer(timeDelta: number) {
+        setRecordAudioTime(recordAudioTime + timeDelta);
+        console.log('*** timer is',recordAudioTime);
+    }
+
+    function recordAudioFunction(record: boolean) {
+        console.log('*** SongDetail: call recordAudioFunction with ' + record);
+        if (record) {
+            setRecordAudio(true);
+            setRecordAudioTime(0);
+
+            TimerMixin = setInterval(() => {
+                console.log('*** Timer tick');
+                // setRecordAudioTime(100);
+                incrementTimer(1);
+                console.log('*** recordAudioTime is: ',recordAudioTime);
+
+
+            },1000);
+        } else {
+            setRecordAudio(false);
+            console.log('*** Timer stop');
+            setRecordAudioTime(0);
+            clearTimeout(TimerMixin);
+        }
     }
 
     return (
@@ -65,7 +94,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/songs"/>
                     </IonButtons>
-                    <IonTitle>Detail</IonTitle>
+                    <IonTitle>Detail {recordAudioTime}</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -79,7 +108,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                         </IonFabButton>
                         <IonFabButton onClick={() => {
                             startRecordAudio();
-                            setRecordAudio(true)
+                            recordAudioFunction(true)
                         }}>
                             <IonIcon icon={mic}/>
                         </IonFabButton>
@@ -97,25 +126,31 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     <IonCardContent>
                         <IonItem class="ion-item-green">
                             <IonLabel position="floating">Title:</IonLabel>
-                            <IonInput clearInput value={currentSong.title} onIonChange={(e) => currentSong.title = (e.target as HTMLInputElement).value}></IonInput>
+                            <IonInput clearInput value={currentSong.title}
+                                      onIonChange={(e) => currentSong.title = (e.target as HTMLInputElement).value}></IonInput>
                         </IonItem>
                         <IonItem class="ion-item-green">
                             <IonLabel position="floating">Description:</IonLabel>
-                            <IonInput clearInput value={currentSong.description} onIonChange={(e) => currentSong.description = (e.target as HTMLInputElement).value}></IonInput>
+                            <IonInput clearInput value={currentSong.description}
+                                      onIonChange={(e) => currentSong.description = (e.target as HTMLInputElement).value}></IonInput>
                         </IonItem>
 
 
                         <IonGrid class="ion-grid-padding ion-padding-top">
                             <IonRow class="ion-align-items-center ion-padding-start">
                                 <IonCol size="3">
-                                    <IonIcon size="large" icon={caretUp} onClick={() => {changeTempo(1)}}/>
+                                    <IonIcon size="large" icon={caretUp} onClick={() => {
+                                        changeTempo(1)
+                                    }}/>
                                 </IonCol>
                                 <IonCol size="6" class="ion-align-items-center ion-text-center">
                                     <h1>{tempo}</h1>
                                     <p>tap tempo</p>
                                 </IonCol>
                                 <IonCol size="3">
-                                    <IonIcon size="large" icon={caretDown} onClick={() => {changeTempo(-1)}}/>
+                                    <IonIcon size="large" icon={caretDown} onClick={() => {
+                                        changeTempo(-1)
+                                    }}/>
                                 </IonCol>
                             </IonRow>
                         </IonGrid>
@@ -132,7 +167,8 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                             <IonRow>
                                 {photos.map((photo, index) => (
                                     <IonCol size="6" key={index}>
-                                        <IonImg onClick={() => setPhotoToDelete(photo)} src={photo.base64 ?? photo.webviewPath}
+                                        <IonImg onClick={() => setPhotoToDelete(photo)}
+                                                src={photo.base64 ?? photo.webviewPath}
                                                 alt=""/>
                                     </IonCol>
                                 ))}
@@ -164,7 +200,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                 }}>Delete
                 </IonButton>
 
-
+                {/* -- Photo Delete Action Sheet*/}
                 <IonActionSheet
                     isOpen={!!photoToDelete}
                     buttons={[{
@@ -188,6 +224,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     onDidDismiss={() => setPhotoToDelete(undefined)}
                 />
 
+                {/* --- Audio Recording Action Sheet */}
                 <IonActionSheet
                     isOpen={!!recordAudio}
                     buttons={[{
@@ -197,11 +234,19 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                         handler: () => {
                             if (recordAudio) {
                                 stopRecordAudio();
-                                setRecordAudio(false);
+                                recordAudioFunction(false);
                             }
                         }
                     }]}
                 />
+
+                {/* --- Popover timer */}
+                <IonPopover
+                    isOpen={!!recordAudio}
+                    onDidDismiss={e => recordAudioFunction(false)}>
+                    <IonItem ion-padding>Record time: {recordAudioTime} s</IonItem>
+                </IonPopover>
+
 
             </IonContent>
         </IonPage>

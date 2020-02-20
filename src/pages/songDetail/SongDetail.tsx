@@ -60,11 +60,6 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
         setTempo(tempo + tempoDelta);
     }
 
-    function incrementTimer(timeDelta: number) {
-        setRecordAudioTime(recordAudioTime + timeDelta);
-        console.log('*** timer is',recordAudioTime);
-    }
-
     function recordAudioFunction(record: boolean) {
         console.log('*** SongDetail: call recordAudioFunction with ' + record);
         if (record) {
@@ -73,11 +68,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
 
             TimerMixin = setInterval(() => {
                 console.log('*** Timer tick');
-                // setRecordAudioTime(100);
-                incrementTimer(1);
-                console.log('*** recordAudioTime is: ',recordAudioTime);
-
-
+                setRecordAudioTime(prevRecordAudioTime => prevRecordAudioTime + 1);
             },1000);
         } else {
             setRecordAudio(false);
@@ -94,7 +85,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     <IonButtons slot="start">
                         <IonBackButton defaultHref="/songs"/>
                     </IonButtons>
-                    <IonTitle>Detail {recordAudioTime}</IonTitle>
+                    <IonTitle>Detail</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>

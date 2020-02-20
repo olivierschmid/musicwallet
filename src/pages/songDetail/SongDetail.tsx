@@ -43,7 +43,7 @@ let TimerMixin = require('react-timer-mixin');
 const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
     const {photos, takePhoto, deletePhoto} = usePhotoGallery();
     const {startRecordAudio, stopRecordAudio, playbackAudio} = useAudio();
-    const {openBrowser, openBrowser2} = useBrowser();
+    const {openBrowser, openBrowserInternal} = useBrowser();
     const {songs, deleteSong, updateSong} = useSongStorage();
 
     const [photoToDelete, setPhotoToDelete] = useState<Photo>();
@@ -204,6 +204,14 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                             if (photoToDelete) {
                                 deletePhoto(photoToDelete);
                                 setPhotoToDelete(undefined);
+                            }
+                        }
+                    }, {
+                        text: 'Open',
+                        icon: document,
+                        handler: () => {
+                            if (photoToDelete) {
+                                openBrowserInternal(photoToDelete.filepath);
                             }
                         }
                     }, {

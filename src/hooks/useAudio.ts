@@ -5,7 +5,7 @@ import {GenericResponse, RecordingData} from 'capacitor-voice-recorder'
 import {isPlatform} from '@ionic/react';
 
 
-const {VoiceRecorder, Audio} = Plugins;
+const {VoiceRecorder} = Plugins;
 
 
 export function useAudio() {
@@ -19,7 +19,7 @@ export function useAudio() {
         if (isPlatform('hybrid')) {
             console.log('platform is hybrid');
             VoiceRecorder.requestAudioRecordingPermission().then((result: GenericResponse) => {
-                console.log(result.value);
+                console.log('*** useAudio: Voicerecorder has permission ',result.value);
                 VoiceRecorder.startRecording()
                     .then((result: GenericResponse) => console.log(result.value))
                     .catch((error: any) => console.log(error))

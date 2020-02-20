@@ -37,6 +37,7 @@ interface UserDetailPageProps extends RouteComponentProps<{
     id: string;
 }> {
 }
+
 let TimerMixin = require('react-timer-mixin');
 
 const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
@@ -69,10 +70,11 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
             TimerMixin = setInterval(() => {
                 console.log('*** Timer tick');
                 setRecordAudioTime(prevRecordAudioTime => prevRecordAudioTime + 1);
-            },1000);
+            }, 1000);
         } else {
             setRecordAudio(false);
             console.log('*** Timer stop');
+            stopRecordAudio();
             setRecordAudioTime(0);
             clearTimeout(TimerMixin);
         }
@@ -109,6 +111,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     </IonFabList>
                 </IonFab>
 
+                {/* -- Song Details -- */}
                 <IonCard class="ion-card-green">
                     <IonCardHeader>
                         <IonCardSubtitle class="ion-card-subtitle-white">Song details</IonCardSubtitle>
@@ -117,13 +120,11 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     <IonCardContent>
                         <IonItem class="ion-item-green">
                             <IonLabel position="floating">Title:</IonLabel>
-                            <IonInput clearInput value={currentSong.title}
-                                      onIonChange={(e) => currentSong.title = (e.target as HTMLInputElement).value}></IonInput>
+                            <IonInput clearInput value={currentSong.title} onIonChange={(e) => currentSong.title = (e.target as HTMLInputElement).value}/>
                         </IonItem>
                         <IonItem class="ion-item-green">
                             <IonLabel position="floating">Description:</IonLabel>
-                            <IonInput clearInput value={currentSong.description}
-                                      onIonChange={(e) => currentSong.description = (e.target as HTMLInputElement).value}></IonInput>
+                            <IonInput clearInput value={currentSong.description} onIonChange={(e) => currentSong.description = (e.target as HTMLInputElement).value}/>
                         </IonItem>
 
 
@@ -148,6 +149,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     </IonCardContent>
                 </IonCard>
 
+                {/* -- Note sheets -- */}
                 <IonCard class="ion-card-orange">
                     <IonCardHeader>
                         <IonCardSubtitle class="ion-card-subtitle-white">note sheets</IonCardSubtitle>
@@ -168,7 +170,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     </IonCardContent>
                 </IonCard>
 
-
+                {/* -- Audio Recordings -- */}
                 <IonCard class="ion-card-blue">
                     <IonCardHeader>
                         <IonCardSubtitle class="ion-card-subtitle-white">audio recordings</IonCardSubtitle>
@@ -178,7 +180,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                         <IonButton expand="block" color="primary"
                                    onClick={() => openBrowser('http://capacitor.ionicframework.com/')}>Browser
                         </IonButton>
-                        <IonButton expand="block" color="primary" onClick={() => playbackAudio('')}>Playlist</IonButton>
+                        <IonButton expand="block" color="primary" onClick={() => playbackAudio('audio1.wav')}>Playlist</IonButton>
                     </IonCardContent>
                 </IonCard>
 
@@ -224,7 +226,6 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                         icon: stopCircleOutline,
                         handler: () => {
                             if (recordAudio) {
-                                stopRecordAudio();
                                 recordAudioFunction(false);
                             }
                         }

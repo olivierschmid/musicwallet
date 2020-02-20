@@ -1,7 +1,6 @@
 import {FilesystemDirectory, FileWriteResult, Plugins} from "@capacitor/core"
 import {AudioPlugin} from 'capacitor-audio';
 import {useFilesystem} from '@ionic/react-hooks/filesystem';
-// not mandatory, only for code completion
 import {GenericResponse, RecordingData} from 'capacitor-voice-recorder'
 import {isPlatform} from '@ionic/react';
 
@@ -10,7 +9,7 @@ const {VoiceRecorder, Audio} = Plugins;
 
 
 export function useAudio() {
-    const {readFile, writeFile} = useFilesystem();
+    const {readFile, writeFile, getUri} = useFilesystem();
 
     const canDeviceVoiceRecord = async () => {
         VoiceRecorder.canDeviceVoiceRecord().then((result: GenericResponse) => console.log(result.value))
@@ -53,17 +52,25 @@ export function useAudio() {
 
     const loadAudio = async () => {
         const file = await readFile({
-            path: 'audio1',
+            path: 'audio1.wav',
             directory: FilesystemDirectory.Data
         });
-        //photo.base64 = `data:image/jpeg;base64,${file.data}`;
         return file.data;
-    }
+    };
 
     const playbackAudio = async (url: string) => {
         console.log('*** useAudio: playbackAudio with url ', url);
 
-        AudioPlugin.playList( [
+        const encodedUrl = await getUri({
+            path: url,
+            directory: FilesystemDirectory.Data,
+        });
+        console.log('*** useAudio: encoded url is ', encodedUrl.uri);
+
+        AudioPlugin.playList([
+                //{
+                //    src: encodedUrl.uri
+                //},
                 {
                     src: 'https://file-examples.com/wp-content/uploads/2017/11/file_example_WAV_1MG.wav'
                 },
@@ -71,19 +78,13 @@ export function useAudio() {
                     src: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
                 }
             ]
-        )
+        );
 
         AudioPlugin.setPlaying({
             title: 'Song 1',
             artist: 'from me :-)'
         })
-
-        // Audio.initAudio();
-        // Audio.play();
-
-
-    }
-
+    };
     return {
         canDeviceVoiceRecord, startRecordAudio, stopRecordAudio, loadAudio, playbackAudio
     }

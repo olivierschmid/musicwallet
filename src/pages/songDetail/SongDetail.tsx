@@ -24,7 +24,9 @@ import {
     IonPage,
     IonPopover,
     IonRange,
-    IonRow, IonSlide, IonSlides,
+    IonRow,
+    IonSlide,
+    IonSlides,
     IonTitle,
     IonToolbar,
 } from '@ionic/react';
@@ -34,8 +36,10 @@ import {
     caretDown,
     caretUp,
     document,
-    mic, micOutline,
-    playOutline, recording,
+    mic,
+    micOutline,
+    musicalNotesOutline,
+    playOutline,
     removeOutline,
     stopCircleOutline,
     trash
@@ -56,7 +60,7 @@ let TimerMixin = require('react-timer-mixin');
 
 const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
     const {photos, takePhoto, deletePhoto} = usePhotoGallery();
-    const {startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal, getAudioDuration} = useAudio();
+    const {startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal, getAudioDuration, isPlaying} = useAudio();
     const {openBrowser, openBrowserInternal} = useBrowser();
     const {songs, deleteSong, updateSong} = useSongStorage();
 
@@ -336,6 +340,15 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     isOpen={!!recordAudio}
                     onDidDismiss={e => recordAudioFunction(false)}>
                     <IonItem ion-padding>Record time: {recordAudioTime} s</IonItem>
+                </IonPopover>
+
+                {/* --- Popover Playing Audio */}
+                <IonPopover
+                    isOpen={!!isPlaying}
+                    onDidDismiss={e => recordAudioFunction(false)}>
+                    <IonItem ion-padding>Playing...............
+                    <IonIcon icon={musicalNotesOutline}></IonIcon>
+                    </IonItem>
                 </IonPopover>
 
 

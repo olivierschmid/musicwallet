@@ -3,6 +3,7 @@ import {AudioPlugin} from 'capacitor-audio';
 import {useFilesystem} from '@ionic/react-hooks/filesystem';
 import {GenericResponse, RecordingData} from 'capacitor-voice-recorder'
 import {isPlatform} from '@ionic/react';
+import {useState} from 'react';
 
 
 const {VoiceRecorder} = Plugins;
@@ -10,6 +11,7 @@ const {VoiceRecorder} = Plugins;
 
 export function useAudio() {
     const {readFile, writeFile, getUri} = useFilesystem();
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
     const canDeviceVoiceRecord = async () => {
         VoiceRecorder.canDeviceVoiceRecord().then((result: GenericResponse) => console.log(result.value))
@@ -52,16 +54,21 @@ export function useAudio() {
 
     const playbackAudioLocal = async (url: string) => {
         console.log('*** useAudio: playbackAudioLocal with url ', url);
+        setIsPlaying(true);
         const audio = await readFile({
             path: url,
             directory: FilesystemDirectory.Data,
         });
-        console.log('*** useAudio: playbackAudioLocal with data ',audio.data);
+        // console.log('*** useAudio: playbackAudioLocal with data ',audio.data);
         const audioRef = new Audio(`data:audio/aac;base64,${audio.data}`);
         audioRef.addEventListener('loadeddata', () => {
             let duration = audioRef.duration;
             console.log('*** useAudio: audio length: ' + duration);
             return duration;
+        });
+        audioRef.addEventListener('ended', () => {
+            console.log('*** useAudio: audio ended');
+            setIsPlaying(false);
         });
         audioRef.oncanplaythrough = () => audioRef.play();
         audioRef.load();
@@ -107,7 +114,7 @@ export function useAudio() {
         })
     };
     return {
-        canDeviceVoiceRecord, startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal, getAudioDuration
+        canDeviceVoiceRecord, startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal, getAudioDuration, isPlaying
     }
 };
 

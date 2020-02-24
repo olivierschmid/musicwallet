@@ -22,7 +22,8 @@ import {
     IonLabel,
     IonList,
     IonPage,
-    IonPopover, IonProgressBar,
+    IonPopover,
+    IonProgressBar,
     IonRange,
     IonRow,
     IonSlide,
@@ -38,7 +39,6 @@ import {
     document,
     mic,
     micOutline,
-    musicalNotesOutline,
     playOutline,
     removeOutline,
     stopCircleOutline,
@@ -120,7 +120,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                         <IonIcon icon={add}></IonIcon>
                     </IonFabButton>
                     <IonFabList>
-                        <IonFabButton onClick={() => takePhoto()}>
+                        <IonFabButton onClick={() => takePhoto(currentSong.songId!)}>
                             <IonIcon icon={camera}/>
                         </IonFabButton>
                         <IonFabButton onClick={() => {
@@ -185,7 +185,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     <IonCardContent>
                         <IonGrid>
                             <IonRow>
-                                {photos.map((photo, index) => (
+                                {photos.filter(p => p.songId === currentSong.songId).map((photo, index) => (
                                     <IonCol size="6" key={index}>
                                         <IonImg onClick={() => setPhotoToDelete(photo)}
                                                 src={photo.base64 ?? photo.webviewPath}

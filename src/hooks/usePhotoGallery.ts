@@ -28,14 +28,14 @@ export function usePhotoGallery() {
         loadSaved();
     }, [get, readFile]);
 
-    const takePhoto = async () => {
+    const takePhoto = async (songId: string) => {
         const cameraPhoto = await getPhoto({
             resultType: CameraResultType.Uri,
             source: CameraSource.Camera,
             quality: 100
         });
         const fileName = new Date().getTime() + '.jpeg';
-        const savedFileImage = await savePicture(cameraPhoto, fileName);
+        const savedFileImage = await savePicture(cameraPhoto, fileName, songId);
         const newPhotos = [savedFileImage, ...photos];
         setPhotos(newPhotos);
         set(PHOTO_STORAGE, JSON.stringify(newPhotos.map(p => {
@@ -47,20 +47,21 @@ export function usePhotoGallery() {
         })));
     };
 
-    const savePicture = async (photo: CameraPhoto, fileName: string) => {
+    const savePicture = async (photo: CameraPhoto, fileName: string, songId: string) => {
         const base64Data = await base64FromPath(photo.webPath!);
         await writeFile({
             path: fileName,
             data: base64Data,
             directory: FilesystemDirectory.Data
         });
-        return getPhotoFile(photo, fileName);
+        return getPhotoFile(photo, fileName, songId);
     };
 
-    const getPhotoFile = async (cameraPhoto: CameraPhoto, fileName: string): Promise<Photo> => {
+    const getPhotoFile = async (cameraPhoto: CameraPhoto, fileName: string, songId: string): Promise<Photo> => {
         return {
             filepath: fileName,
-            webviewPath: cameraPhoto.webPath
+            webviewPath: cameraPhoto.webPath,
+            songId: songId
         };
     };
 
@@ -91,5 +92,5 @@ export interface Photo {
     filepath: string;
     webviewPath?: string;
     base64?: string;
-    songId?: string;
+    songId: string;
 }

@@ -129,9 +129,6 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                         }}>
                             <IonIcon icon={mic}/>
                         </IonFabButton>
-                        <IonFabButton>
-                            <IonIcon icon={document}/>
-                        </IonFabButton>
                     </IonFabList>
                 </IonFab>
 

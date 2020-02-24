@@ -77,6 +77,8 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
 
     function changeTempo(tempoDelta: number) {
         setTempo(tempo + tempoDelta);
+        currentSong.tempo = tempo;
+        console.log('*** song tempo: '+JSON.stringify(currentSong)); // todo: remove
     }
 
     function recordAudioFunction(record: boolean) {
@@ -160,7 +162,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                                     }}/>
                                 </IonCol>
                                 <IonCol size="6" class="ion-align-items-center ion-text-center">
-                                    <h1>{tempo}</h1>
+                                    <h1>{currentSong.tempo}</h1>
                                     <p>tap tempo</p>
                                 </IonCol>
                                 <IonCol size="3">

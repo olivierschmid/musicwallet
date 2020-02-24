@@ -58,4 +58,6 @@ export interface Song {
     songId?: string;
     title?: string;
     description?: string;
+    tempo?: number;
+    key?: string;
 }

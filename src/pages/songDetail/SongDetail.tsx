@@ -19,13 +19,27 @@ import {
     IonImg,
     IonInput,
     IonItem,
-    IonLabel, IonList,
-    IonPage, IonPopover,
-    IonRow,
+    IonLabel,
+    IonList,
+    IonPage,
+    IonPopover,
+    IonRange,
+    IonRow, IonSlide, IonSlides,
     IonTitle,
     IonToolbar,
 } from '@ionic/react';
-import {add, camera, caretDown, caretUp, document, mic, stopCircleOutline, trash} from 'ionicons/icons';
+import {
+    add,
+    camera,
+    caretDown,
+    caretUp,
+    document,
+    mic, micOutline,
+    playOutline, recording,
+    removeOutline,
+    stopCircleOutline,
+    trash
+} from 'ionicons/icons';
 import {Photo, usePhotoGallery} from '../../hooks/usePhotoGallery';
 import {useAudio} from '../../hooks/useAudio';
 import {useBrowser} from '../../hooks/useBrowser';
@@ -80,6 +94,12 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
         }
     }
 
+    const slideOpts = {
+        initialSlide: 1,
+        speed: 400,
+        slidesPerView: 3,
+    };
+
     return (
         <IonPage>
             <IonHeader>
@@ -120,11 +140,13 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                     <IonCardContent>
                         <IonItem class="ion-item-green">
                             <IonLabel position="floating">Title:</IonLabel>
-                            <IonInput clearInput value={currentSong.title} onIonChange={(e) => currentSong.title = (e.target as HTMLInputElement).value}/>
+                            <IonInput clearInput value={currentSong.title}
+                                      onIonChange={(e) => currentSong.title = (e.target as HTMLInputElement).value}/>
                         </IonItem>
                         <IonItem class="ion-item-green">
                             <IonLabel position="floating">Description:</IonLabel>
-                            <IonInput clearInput value={currentSong.description} onIonChange={(e) => currentSong.description = (e.target as HTMLInputElement).value}/>
+                            <IonInput clearInput value={currentSong.description}
+                                      onIonChange={(e) => currentSong.description = (e.target as HTMLInputElement).value}/>
                         </IonItem>
 
 
@@ -171,23 +193,46 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                 </IonCard>
 
                 {/* -- Audio Recordings -- */}
-                <IonCard class="ion-card-yellow">
-                    <IonCardHeader>
-                        <IonCardSubtitle class="ion-card-subtitle-white">audio recordings</IonCardSubtitle>
-                    </IonCardHeader>
+                <IonSlides options={slideOpts}>
+                    <IonSlide class="ion-card-yellow">
+                        <IonCard class="ion-card-yellow">
+                            <IonCardHeader>
+                                <IonCardSubtitle class="ion-card-subtitle-white">New</IonCardSubtitle>
+                            </IonCardHeader>
 
-                    <IonCardContent>
-                        <IonList>
-                            <IonItem class="ion-item-yellow" onClick={() => playbackAudioLocal('audio1.wav')}>
-                                Recording 1
-                            </IonItem>
-                            <IonItem class="ion-item-yellow" onClick={() => playbackAudioLocal('audio1.wav')}>
-                                Recording 2
-                            </IonItem>
-                        </IonList>
-                        <IonButton expand="block" color="medium" onClick={() => playbackAudio('')}>Playlist</IonButton>
-                    </IonCardContent>
-                </IonCard>
+                            <IonCardContent>
+                                <IonIcon size="large" icon={micOutline} onClick={() => {
+                                    startRecordAudio();
+                                    recordAudioFunction(true)
+                                }}></IonIcon>
+                            </IonCardContent>
+                        </IonCard>
+                    </IonSlide>
+                    <IonSlide class="ion-card-yellow">
+                        <IonCard class="ion-card-yellow">
+                            <IonCardHeader>
+                                <IonCardSubtitle class="ion-card-subtitle-white">Rec 1</IonCardSubtitle>
+                            </IonCardHeader>
+
+                            <IonCardContent>
+                                <IonIcon size="large" icon={playOutline}
+                                         onClick={() => playbackAudioLocal('audio1.wav')}></IonIcon>
+                            </IonCardContent>
+                        </IonCard>
+                    </IonSlide>
+                    <IonSlide class="ion-card-yellow">
+                        <IonCard class="ion-card-yellow">
+                            <IonCardHeader>
+                                <IonCardSubtitle class="ion-card-subtitle-white">Rec 2</IonCardSubtitle>
+                            </IonCardHeader>
+
+                            <IonCardContent>
+                                <IonIcon size="large" icon={playOutline}
+                                         onClick={() => playbackAudioLocal('audio1.wav')}></IonIcon>
+                            </IonCardContent>
+                        </IonCard>
+                    </IonSlide>
+                </IonSlides>
 
                 {/* -- Files / Browser -- */}
                 <IonCard class="ion-card-blue">
@@ -197,17 +242,39 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
 
                     <IonCardContent>
                         <IonList>
-                            <IonItem class="ion-item-blue" onClick={() => openBrowser('https://www.songfacts.com/lyrics/the-beatles/yesterday')}>
+                            <IonItem class="ion-item-blue"
+                                     onClick={() => openBrowser('https://www.songfacts.com/lyrics/the-beatles/yesterday')}>
                                 Lyrics
                             </IonItem>
-                            <IonItem class="ion-item-blue" onClick={() => openBrowser('https://www.songfacts.com/lyrics/the-beatles/yesterday')}>
+                            <IonItem class="ion-item-blue"
+                                     onClick={() => openBrowser('https://www.songfacts.com/lyrics/the-beatles/yesterday')}>
                                 Additional Infos
                             </IonItem>
                         </IonList>
                     </IonCardContent>
                 </IonCard>
 
+                {/* -- Metronom -- */}
+                <IonCard>
+                    <IonCardContent>
+                        <IonList>
+                            <IonItem>
+                                <IonLabel>100 BPM</IonLabel>
+                                <IonIcon slot="end" size="large" icon={playOutline} color="danger"></IonIcon>
+                            </IonItem>
+                            <IonItem>
+                                <IonRange min={10} max={250} step={10} value={120} snaps color="danger">
+                                    <IonIcon slot="start" size="small" color="danger" icon={removeOutline}></IonIcon>
+                                    <IonIcon slot="end" color="danger" icon={add}></IonIcon>
+                                </IonRange>
+                            </IonItem>
+                        </IonList>
+                    </IonCardContent>
+                </IonCard>
+
                 {/* -- Update and Delete Buttons -- */}
+                <IonButton expand="block" color="medium"
+                           onClick={() => playbackAudioLocal('audio1.wav')}>Playlist</IonButton>
                 <IonButton expand="block" color="primary" onClick={() => {
                     updateSong(currentSong)
                 }}>Update

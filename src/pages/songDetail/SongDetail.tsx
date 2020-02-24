@@ -60,7 +60,7 @@ let TimerMixin = require('react-timer-mixin');
 
 const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
     const {photos, takePhoto, deletePhoto} = usePhotoGallery();
-    const {startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal, getAudioDuration, isPlaying} = useAudio();
+    const {startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal, isPlaying} = useAudio();
     const {openBrowser, openBrowserInternal} = useBrowser();
     const {songs, deleteSong, updateSong} = useSongStorage();
 
@@ -139,7 +139,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                 <IonCard class="ion-card-green">
                     <IonCardHeader>
                         <IonCardSubtitle class="ion-card-subtitle-white">Song
-                            details {getAudioDuration}</IonCardSubtitle>
+                            details</IonCardSubtitle>
                     </IonCardHeader>
 
                     <IonCardContent>

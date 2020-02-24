@@ -74,21 +74,6 @@ export function useAudio() {
         audioRef.load();
     };
 
-    const getAudioDuration = async (url: string) => {
-        console.log('*** useAudio: playbackAudioLocal with url ', url);
-        const audio = await readFile({
-            path: url,
-            directory: FilesystemDirectory.Data,
-        });
-        console.log('*** useAudio: playbackAudioLocal with data ',audio.data);
-        const audioRef = new Audio(`data:audio/aac;base64,${audio.data}`);
-        audioRef.addEventListener('loadeddata', () => {
-            let duration = audioRef.duration;
-            console.log('*** useAudio: audio length: ' + duration);
-            return duration;
-        });
-    };
-
     const playbackAudio = async (url: string) => {
         console.log('*** useAudio: playbackAudio with url ', url);
 
@@ -114,7 +99,7 @@ export function useAudio() {
         })
     };
     return {
-        canDeviceVoiceRecord, startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal, getAudioDuration, isPlaying
+        canDeviceVoiceRecord, startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal, isPlaying
     }
 };
 

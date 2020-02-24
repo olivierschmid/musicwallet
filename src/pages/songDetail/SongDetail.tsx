@@ -56,7 +56,7 @@ let TimerMixin = require('react-timer-mixin');
 
 const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
     const {photos, takePhoto, deletePhoto} = usePhotoGallery();
-    const {startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal} = useAudio();
+    const {startRecordAudio, stopRecordAudio, playbackAudio, playbackAudioLocal, getAudioDuration} = useAudio();
     const {openBrowser, openBrowserInternal} = useBrowser();
     const {songs, deleteSong, updateSong} = useSongStorage();
 
@@ -134,7 +134,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                 {/* -- Song Details -- */}
                 <IonCard class="ion-card-green">
                     <IonCardHeader>
-                        <IonCardSubtitle class="ion-card-subtitle-white">Song details</IonCardSubtitle>
+                        <IonCardSubtitle class="ion-card-subtitle-white">Song details {getAudioDuration}</IonCardSubtitle>
                     </IonCardHeader>
 
                     <IonCardContent>
@@ -264,8 +264,8 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                             </IonItem>
                             <IonItem>
                                 <IonRange min={10} max={250} step={10} value={120} snaps color="danger">
-                                    <IonIcon slot="start" size="small" color="danger" icon={removeOutline}></IonIcon>
-                                    <IonIcon slot="end" color="danger" icon={add}></IonIcon>
+                                    <IonIcon slot="start" size="medium" color="danger" icon={removeOutline}></IonIcon>
+                                    <IonIcon slot="end" color="medium" icon={add}></IonIcon>
                                 </IonRange>
                             </IonItem>
                         </IonList>
@@ -274,7 +274,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
 
                 {/* -- Update and Delete Buttons -- */}
                 <IonButton expand="block" color="medium"
-                           onClick={() => playbackAudioLocal('audio1.wav')}>Playlist</IonButton>
+                           onClick={() => playbackAudio('audio1.wav')}>Playlist</IonButton>
                 <IonButton expand="block" color="primary" onClick={() => {
                     updateSong(currentSong)
                 }}>Update

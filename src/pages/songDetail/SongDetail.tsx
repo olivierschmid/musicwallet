@@ -22,7 +22,7 @@ import {
     IonLabel,
     IonList,
     IonPage,
-    IonPopover,
+    IonPopover, IonProgressBar,
     IonRange,
     IonRow,
     IonSlide,
@@ -138,7 +138,8 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                 {/* -- Song Details -- */}
                 <IonCard class="ion-card-green">
                     <IonCardHeader>
-                        <IonCardSubtitle class="ion-card-subtitle-white">Song details {getAudioDuration}</IonCardSubtitle>
+                        <IonCardSubtitle class="ion-card-subtitle-white">Song
+                            details {getAudioDuration}</IonCardSubtitle>
                     </IonCardHeader>
 
                     <IonCardContent>
@@ -198,45 +199,23 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
 
                 {/* -- Audio Recordings -- */}
                 <IonSlides options={slideOpts}>
-                    <IonSlide class="ion-card-yellow">
-                        <IonCard class="ion-card-yellow">
-                            <IonCardHeader>
-                                <IonCardSubtitle class="ion-card-subtitle-white">New</IonCardSubtitle>
-                            </IonCardHeader>
-
-                            <IonCardContent>
-                                <IonIcon size="large" icon={micOutline} onClick={() => {
-                                    startRecordAudio();
-                                    recordAudioFunction(true)
-                                }}></IonIcon>
-                            </IonCardContent>
-                        </IonCard>
+                    <IonSlide class="ion-card-yellow ion-padding">
+                        <IonIcon size="large" icon={micOutline} onClick={() => {
+                            startRecordAudio();
+                            recordAudioFunction(true)
+                        }}></IonIcon>
                     </IonSlide>
-                    <IonSlide class="ion-card-yellow">
-                        <IonCard class="ion-card-yellow">
-                            <IonCardHeader>
-                                <IonCardSubtitle class="ion-card-subtitle-white">Rec 1</IonCardSubtitle>
-                            </IonCardHeader>
-
-                            <IonCardContent>
-                                <IonIcon size="large" icon={playOutline}
-                                         onClick={() => playbackAudioLocal('audio1.wav')}></IonIcon>
-                            </IonCardContent>
-                        </IonCard>
+                    <IonSlide class="ion-card-yellow ion-padding">
+                        <IonIcon size="large" icon={playOutline}
+                                 onClick={() => playbackAudioLocal('audio1.wav')}></IonIcon>
                     </IonSlide>
-                    <IonSlide class="ion-card-yellow">
-                        <IonCard class="ion-card-yellow">
-                            <IonCardHeader>
-                                <IonCardSubtitle class="ion-card-subtitle-white">Rec 2</IonCardSubtitle>
-                            </IonCardHeader>
-
-                            <IonCardContent>
-                                <IonIcon size="large" icon={playOutline}
-                                         onClick={() => playbackAudioLocal('audio1.wav')}></IonIcon>
-                            </IonCardContent>
-                        </IonCard>
+                    <IonSlide class="ion-card-yellow ion-padding">
+                        <IonIcon size="large" icon={playOutline}
+                                 onClick={() => playbackAudioLocal('audio1.wav')}></IonIcon>
                     </IonSlide>
                 </IonSlides>
+                <br></br>
+
 
                 {/* -- Files / Browser -- */}
                 <IonCard class="ion-card-blue">
@@ -346,8 +325,9 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                 <IonPopover
                     isOpen={!!isPlaying}
                     onDidDismiss={e => recordAudioFunction(false)}>
-                    <IonItem ion-padding>Playing...............
-                    <IonIcon icon={musicalNotesOutline}></IonIcon>
+                    <IonItem ion-padding>
+                        <IonProgressBar type="indeterminate"></IonProgressBar>
+                        <IonButton>Cancel</IonButton>
                     </IonItem>
                 </IonPopover>
 

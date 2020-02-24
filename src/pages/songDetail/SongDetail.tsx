@@ -39,7 +39,7 @@ import {
     document,
     mic,
     micOutline,
-    playOutline,
+    playOutline, pulseOutline,
     removeOutline,
     stopCircleOutline,
     trash
@@ -209,7 +209,7 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                                  onClick={() => playbackAudioLocal('audio1.wav')}></IonIcon>
                     </IonSlide>
                     <IonSlide class="ion-card-yellow ion-padding">
-                        <IonIcon size="large" icon={playOutline}
+                        <IonIcon size="large" icon={pulseOutline}
                                  onClick={() => playbackAudioLocal('audio1.wav')}></IonIcon>
                     </IonSlide>
                 </IonSlides>
@@ -231,24 +231,6 @@ const SongDetail: React.FC<UserDetailPageProps> = ({match}) => {
                             <IonItem class="ion-item-blue"
                                      onClick={() => openBrowser('https://www.songfacts.com/lyrics/the-beatles/yesterday')}>
                                 Additional Infos
-                            </IonItem>
-                        </IonList>
-                    </IonCardContent>
-                </IonCard>
-
-                {/* -- Metronom -- */}
-                <IonCard>
-                    <IonCardContent>
-                        <IonList>
-                            <IonItem>
-                                <IonLabel>100 BPM</IonLabel>
-                                <IonIcon slot="end" size="large" icon={playOutline} color="danger"></IonIcon>
-                            </IonItem>
-                            <IonItem>
-                                <IonRange min={10} max={250} step={10} value={120} snaps color="danger">
-                                    <IonIcon slot="start" size="medium" color="danger" icon={removeOutline}></IonIcon>
-                                    <IonIcon slot="end" color="medium" icon={add}></IonIcon>
-                                </IonRange>
                             </IonItem>
                         </IonList>
                     </IonCardContent>
